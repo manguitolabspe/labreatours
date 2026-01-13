@@ -7,9 +7,10 @@ interface ToursProps {
   tours: Tour[];
   isLoading: boolean;
   title?: string;
+  onBookTour?: (id: string) => void;
 }
 
-export const Tours: React.FC<ToursProps> = ({ tours, isLoading, title }) => {
+export const Tours: React.FC<ToursProps> = ({ tours, isLoading, title, onBookTour }) => {
   return (
     <section id="tours" className="py-24 md:py-32 bg-gray-50/50 relative overflow-hidden min-h-[60vh]">
       <div className="container mx-auto px-6 relative z-10">
@@ -44,7 +45,7 @@ export const Tours: React.FC<ToursProps> = ({ tours, isLoading, title }) => {
         ) : (
           <div className="animate-fade-in">
             {tours.length > 0 ? (
-              <TourList tours={tours} />
+              <TourList tours={tours} onBookTour={onBookTour} />
             ) : (
               <div className="flex flex-col items-center justify-center py-20 text-center bg-white rounded-[3rem] border border-dashed border-gray-200 shadow-sm max-w-2xl mx-auto">
                 <i className="fa-solid fa-map-location-dot text-6xl text-gray-200 mb-6"></i>

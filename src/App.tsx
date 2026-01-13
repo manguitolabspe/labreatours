@@ -30,6 +30,7 @@ import {
 function App() {
   const [currentPath, setCurrentPath] = useState('inicio');
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [preselectedTourId, setPreselectedTourId] = useState<string | undefined>(undefined);
   const [toasts, setToasts] = useState<{id: number, message: string, type: ToastType}[]>([]);
   
   const [tours, setTours] = useState<Tour[]>([]);
@@ -176,6 +177,11 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenBooking = (tourId?: string) => {
+    setPreselectedTourId(tourId);
+    setIsBookingOpen(true);
+  };
+
   const renderContent = () => {
     switch (currentPath) {
       case 'inicio': 
@@ -183,7 +189,12 @@ function App() {
           <>
             <Hero onNavigate={handleNavigate} />
             <TrustBar />
-            <Tours tours={tours.slice(0, 2)} isLoading={isLoadingData} title="Tours Destacados" />
+            <Tours 
+              tours={tours.slice(0, 2)} 
+              isLoading={isLoadingData} 
+              title="Tours Destacados" 
+              onBookTour={handleOpenBooking}
+            />
             {!isLoadingData && tours.length > 0 && (
               <div className="flex justify-center pb-20 bg-gray-50/50">
                 <button 
@@ -207,7 +218,7 @@ function App() {
           </>
         );
       case 'tours': 
-        return <Tours tours={tours} isLoading={isLoadingData} />;
+        return <Tours tours={tours} isLoading={isLoadingData} onBookTour={handleOpenBooking} />;
       case 'nosotros': 
         return (
           <>
@@ -237,7 +248,7 @@ function App() {
       <Navbar 
         currentPath={currentPath} 
         onNavigate={handleNavigate} 
-        onOpenBooking={() => setIsBookingOpen(true)}
+        onOpenBooking={() => handleOpenBooking()}
         settings={settings}
       />
       
@@ -258,10 +269,11 @@ function App() {
 
       <BookingModal 
         isOpen={isBookingOpen} 
-        onClose={() => setIsBookingOpen(false)} 
+        onClose={() => { setIsBookingOpen(false); setPreselectedTourId(undefined); }} 
         onSuccess={(msg) => addToast(msg, 'success')}
         tours={tours}
         settings={settings}
+        initialTourId={preselectedTourId}
       />
       
       <ToastContainer toasts={toasts} onClose={(id) => setToasts(prev => prev.filter(t => t.id !== id))} />

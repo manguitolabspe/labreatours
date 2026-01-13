@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '../ui/Modal';
 import { CustomCalendar } from './CustomCalendar';
 import { Tour, BusinessSettings } from '../../types';
@@ -10,9 +10,10 @@ interface BookingModalProps {
   onSuccess: (message: string) => void;
   tours: Tour[];
   settings: BusinessSettings;
+  initialTourId?: string;
 }
 
-export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onSuccess, tours, settings }) => {
+export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onSuccess, tours, settings, initialTourId }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +23,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onS
     guests: 1
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Efecto para capturar el tour preseleccionado cuando el modal se abre
+  useEffect(() => {
+    if (isOpen) {
+      if (initialTourId) {
+        setFormData(prev => ({ ...prev, tourId: initialTourId }));
+      }
+    } else {
+      // Limpiar formulario al cerrar
+      setFormData({ name: '', email: '', tourId: '', date: '', guests: 1 });
+      setStep(1);
+      setErrors({});
+    }
+  }, [isOpen, initialTourId]);
 
   const validateStep1 = () => {
     const newErrors: Record<string, string> = {};
@@ -68,10 +83,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onS
 
       onSuccess(`Redirigiendo a WhatsApp de ${settings.brandName}.`);
       onClose();
-      // Reset form
-      setFormData({ name: '', email: '', tourId: '', date: '', guests: 1 });
-      setStep(1);
-      setErrors({});
     }
   };
 

@@ -5,9 +5,10 @@ import { TourCard } from './TourCard';
 
 interface TourListProps {
   tours: Tour[];
+  onBookTour?: (id: string) => void;
 }
 
-export const TourList: React.FC<TourListProps> = ({ tours }) => {
+export const TourList: React.FC<TourListProps> = ({ tours, onBookTour }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-16 gap-y-16 md:gap-y-24 max-w-7xl mx-auto">
       {tours.map((tour, idx) => (
@@ -17,7 +18,7 @@ export const TourList: React.FC<TourListProps> = ({ tours }) => {
             idx % 2 !== 0 ? 'lg:translate-y-24' : ''
           }`}
         >
-          <TourCard tour={tour} />
+          <TourCard tour={tour} onBookTour={onBookTour} />
         </div>
       ))}
     </div>

@@ -4,6 +4,7 @@ import { Tour } from '../types';
 
 interface TourCardProps {
   tour: Tour;
+  onBookTour?: (id: string) => void;
 }
 
 const categoryIcons = {
@@ -15,11 +16,10 @@ const categoryIcons = {
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1200";
 
-export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
+export const TourCard: React.FC<TourCardProps> = ({ tour, onBookTour }) => {
   const [imgSrc, setImgSrc] = useState(tour.imageUrl || FALLBACK_IMAGE);
   
-  // Neuromarketing: Simulamos popularidad basándonos en el ID
-  const isPopular = parseInt(tour.id) % 2 === 0;
+  const isPopular = tour.popular || false;
 
   return (
     <div className="group relative bg-white flex flex-col rounded-[2rem] md:rounded-[3rem] overflow-hidden transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-gray-100 h-full">
@@ -34,7 +34,7 @@ export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
         
         <div className="absolute top-4 md:top-6 left-4 md:left-6 flex flex-col space-y-2">
           <span className="bg-white/10 backdrop-blur-md text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] px-3 md:px-5 py-2 md:py-2.5 rounded-full border border-white/20 flex items-center space-x-2 self-start">
-            <i className={`fa-solid ${categoryIcons[tour.category] || 'fa-mountain-sun'}`}></i>
+            <i className={`fa-solid ${categoryIcons[tour.category as keyof typeof categoryIcons] || 'fa-mountain-sun'}`}></i>
             <span>{tour.category}</span>
           </span>
           {isPopular && (
@@ -67,7 +67,10 @@ export const TourCard: React.FC<TourCardProps> = ({ tour }) => {
               <span className="text-2xl md:text-3xl font-bold text-black">{tour.price}</span>
             </div>
           </div>
-          <button className="px-6 py-3 md:px-8 md:py-4 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-sky-500 transition-all shadow-xl group/btn flex items-center space-x-2">
+          <button 
+            onClick={() => onBookTour?.(tour.id)}
+            className="px-6 py-3 md:px-8 md:py-4 bg-black text-white rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-sky-500 transition-all shadow-xl group/btn flex items-center space-x-2 active:scale-90"
+          >
             <span>Reservar</span>
             <i className="fa-solid fa-chevron-right text-[8px]"></i>
           </button>
