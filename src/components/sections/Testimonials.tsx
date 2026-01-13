@@ -1,20 +1,23 @@
 
 import React from 'react';
 import { Review } from '../../types';
+import { translations } from '../../translations';
 
 interface TestimonialsProps {
   reviews: Review[];
+  language: 'es' | 'en';
 }
 
-export const Testimonials: React.FC<TestimonialsProps> = ({ reviews }) => {
+export const Testimonials: React.FC<TestimonialsProps> = ({ reviews, language }) => {
+  const t = translations[language];
   if (reviews.length === 0) return null;
 
   return (
     <section className="py-24 bg-gray-50 overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <span className="text-sky-500 font-bold text-[10px] uppercase tracking-[0.3em] mb-4 block">Experiencias Reales</span>
-          <h2 className="text-4xl md:text-5xl font-bold font-display italic text-black">Lo que dicen <span className="text-sky-500">nuestros viajeros</span></h2>
+          <span className="text-sky-500 font-bold text-[10px] uppercase tracking-[0.3em] mb-4 block">{t.testimonials_label}</span>
+          <h2 className="text-4xl md:text-5xl font-bold font-display italic text-black">{t.testimonials_title} <span className="text-sky-500">{t.testimonials_subtitle}</span></h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -23,7 +26,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ reviews }) => {
               <div className="flex text-amber-400 mb-6">
                 {[...Array(Number(r.stars) || 5)].map((_, s) => <i key={s} className="fa-solid fa-star text-xs mr-1"></i>)}
               </div>
-              <p className="text-gray-600 italic mb-8 leading-relaxed">"{r.text}"</p>
+              <p className="text-gray-600 italic mb-8 leading-relaxed text-sm md:text-base">"{r.text}"</p>
               <div className="flex items-center space-x-4">
                 <div className="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center text-sky-500 font-bold text-xs uppercase shadow-inner">
                   {r.name.charAt(0)}

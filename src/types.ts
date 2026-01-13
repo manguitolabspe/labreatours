@@ -8,6 +8,8 @@ export interface Tour {
   imageUrl: string;
   category: 'Aventura' | 'Historia' | 'Relajación' | 'Naturaleza';
   popular?: boolean;
+  spots?: number;
+  lastTourHours?: number;
 }
 
 export interface Review {
@@ -28,6 +30,7 @@ export interface BusinessSettings {
   email: string;
   location: string;
   aboutImageUrl?: string;
+  aboutText?: string;
   secretGuideUrl?: string;
   showLeadCapture?: boolean;
   showTestimonials?: boolean;

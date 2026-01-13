@@ -1,13 +1,16 @@
 
 import React, { useState } from 'react';
 import { FaqItem } from '../../types';
+import { translations } from '../../translations';
 
 interface FAQProps {
   items: FaqItem[];
+  language: 'es' | 'en';
 }
 
-export const FAQ: React.FC<FAQProps> = ({ items }) => {
+export const FAQ: React.FC<FAQProps> = ({ items, language }) => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const t = translations[language];
 
   if (items.length === 0) return null;
 
@@ -15,8 +18,8 @@ export const FAQ: React.FC<FAQProps> = ({ items }) => {
     <section className="py-24 bg-white">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold font-display italic text-black mb-4">Preguntas <span className="text-sky-500">Frecuentes</span></h2>
-          <p className="text-gray-500 italic">Despeja tus dudas y prepárate para la aventura.</p>
+          <h2 className="text-4xl font-bold font-display italic text-black mb-4">{t.faq_title} <span className="text-sky-500">{t.faq_subtitle}</span></h2>
+          <p className="text-gray-500 italic">{t.faq_desc}</p>
         </div>
         
         <div className="space-y-4">

@@ -1,12 +1,19 @@
 
 import React from 'react';
+import { translations } from '../../translations';
 
-export const TrustBar: React.FC = () => {
+interface TrustBarProps {
+  language: 'es' | 'en';
+}
+
+export const TrustBar: React.FC<TrustBarProps> = ({ language }) => {
+  const t = translations[language];
+
   const benefits = [
-    { icon: 'fa-shield-halved', title: 'Seguridad Total', desc: 'Protocolos garantizados' },
-    { icon: 'fa-certificate', title: 'Guías Locales', desc: 'Expertos certificados' },
-    { icon: 'fa-tags', title: 'Precio Directo', desc: 'Sin intermediarios' },
-    { icon: 'fa-clock-rotate-left', title: 'Flexibilidad', desc: 'Cambios sin costo' }
+    { icon: 'fa-shield-halved', title: t.trust_security, desc: t.trust_security_desc },
+    { icon: 'fa-certificate', title: t.trust_guides, desc: t.trust_guides_desc },
+    { icon: 'fa-tags', title: t.trust_price, desc: t.trust_price_desc },
+    { icon: 'fa-clock-rotate-left', title: t.trust_flex, desc: t.trust_flex_desc }
   ];
 
   return (

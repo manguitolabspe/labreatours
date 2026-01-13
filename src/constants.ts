@@ -2,7 +2,7 @@
 import { Tour, NavItem } from './types';
 
 /**
- * Configuración Base (Valores por defecto)
+ * Configuración Base
  */
 export const BRAND_NAME = "La Brea Tours";
 export const PHONE_NUMBER = "997 579 482";
@@ -11,19 +11,19 @@ export const LOCATION = "La Brea - Negritos | Talara, Piura";
 
 /**
  * Configuración de Google Sheets
- * PUEDES AGREGAR MÁS IDs SI NECESITAS LEER DE OTROS ARCHIVOS:
- * export const GOOGLE_SHEET_ID_EXTRA = "OTRO_ID_AQUÍ";
  */
 export const GOOGLE_SHEET_ID = "1CMvwdvvgPtARLjKdnad79_CNsyeb5XGhk4cbxL2Hhw4";
 
-// GIDs de las pestañas
-export const GID_TOURS = "0";
-export const GID_TESTIMONIALS = "207045178";
-export const GID_FAQ = "2044873712";
-export const GID_SETTINGS = "965589579";
-export const GID_LEADS = "1838398456"; 
+export const GID_TOURS = "1151914268";
+export const GID_SETTINGS = "1075111663";
+export const GID_TESTIMONIALS = "1719210674";
+export const GID_FAQ = "1299777147";
+export const GID_LEADS = "1798870088"; 
+export const GID_RESERVAS = "69952412"; 
+export const GID_CONTACTO = "1032766857"; 
 
-export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyV7zir4hn_UEs-iIBJuCxAGbnYrC_Y5EuHtmNL9nZw4fh5tGbDRSErXdghO8BTKsCm/exec"; 
+// REEMPLAZA ESTA URL CON LA QUE COPIASTE EN EL PASO ANTERIOR
+export const GOOGLE_SCRIPT_URL = "COLOQUE_AQUI_SU_NUEVA_URL_DE_APPS_SCRIPT"; 
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', id: 'inicio', href: '#inicio' },
