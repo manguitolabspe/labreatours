@@ -96,16 +96,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
         </button>
       </div>
 
-      {/* Fullscreen Mobile Menu Overlay - Corregido para cubrir todo sin importar el scroll */}
+      {/* Fullscreen Mobile Menu Overlay */}
       <div 
         className={`fixed inset-0 w-full h-[100dvh] bg-white z-[210] flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.77,0.2,0.05,1.0)] ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full justify-center items-center p-10 space-y-6">
-          <div className="absolute top-8 left-8">
-            <BrandLogo isDark={true} brandName={settings.brandName} />
-          </div>
+          {/* Se removió el BrandLogo del top-8 left-8 */}
 
           {NAV_ITEMS.map((item) => (
             <button 
@@ -152,11 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
             />
           </div>
           
-          <div className="absolute bottom-10 text-center w-full">
-             <p className="text-[10px] text-gray-300 uppercase tracking-[0.4em] font-bold">
-               {settings.brandName} • NEGRITOS
-             </p>
-          </div>
+          {/* Se removió el texto de marca del bottom-10 */}
         </div>
       </div>
     </nav>
