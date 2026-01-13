@@ -1,0 +1,7 @@
+{
+  "name": "La Brea Tours & Adventures",
+  "description": "Fomentamos contenido basado en promoción y orientación turística del Distrito La Brea. Guía de turismo local en Negritos - Talara, Piura.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
