@@ -2,19 +2,21 @@
 import { Tour, NavItem } from './types';
 
 /**
- * Configuración Base (Valores por defecto si falla la carga)
+ * Configuración Base (Valores por defecto)
  */
-export const BRAND_NAME = "La Brea Tours & Adventures";
+export const BRAND_NAME = "La Brea Tours";
 export const PHONE_NUMBER = "997 579 482";
 export const EMAIL = "labreatours@gmail.com";
-export const LOCATION = "Negritos - Talara, Piura (Perú)";
+export const LOCATION = "La Brea - Negritos | Talara, Piura";
 
 /**
  * Configuración de Google Sheets
+ * PUEDES AGREGAR MÁS IDs SI NECESITAS LEER DE OTROS ARCHIVOS:
+ * export const GOOGLE_SHEET_ID_EXTRA = "OTRO_ID_AQUÍ";
  */
 export const GOOGLE_SHEET_ID = "1CMvwdvvgPtARLjKdnad79_CNsyeb5XGhk4cbxL2Hhw4";
 
-// GIDs de las pestañas proporcionados por el usuario
+// GIDs de las pestañas
 export const GID_TOURS = "0";
 export const GID_TESTIMONIALS = "207045178";
 export const GID_FAQ = "2044873712";
@@ -29,5 +31,3 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Nosotros', id: 'nosotros', href: '#nosotros' },
   { label: 'Contacto', id: 'contacto', href: '#contacto' },
 ];
-
-export const INITIAL_TOURS: Tour[] = [];

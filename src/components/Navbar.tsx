@@ -17,18 +17,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
   const isScrolled = useScroll(10);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Bloqueo total de scroll cuando el menú está abierto
+  // Bloqueo total de scroll cuando el menú está abierto para evitar bugs visuales
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.height = '100vh';
+      document.body.style.touchAction = 'none';
     } else {
       document.body.style.overflow = 'auto';
-      document.body.style.height = 'auto';
+      document.body.style.touchAction = 'auto';
     }
     return () => {
       document.body.style.overflow = 'auto';
-      document.body.style.height = 'auto';
+      document.body.style.touchAction = 'auto';
     };
   }, [isMenuOpen]);
 
@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-[200] transition-all duration-300 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-2' : 'bg-white py-4'
+      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-2' : 'bg-white py-4'
     }`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="z-[220]" onClick={() => handleNavClick('inicio')}>
@@ -85,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
         {/* Burger Button */}
         <button 
           onClick={() => setIsMenuOpen(!isMenuOpen)} 
-          className="md:hidden focus:outline-none z-[220] p-2 bg-gray-50 rounded-lg"
+          className="md:hidden focus:outline-none z-[220] p-2 bg-gray-50 rounded-lg relative"
           aria-label="Menu"
         >
           <div className="relative w-6 h-5 flex flex-col justify-between">
@@ -96,13 +96,17 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
         </button>
       </div>
 
-      {/* Fullscreen Mobile Menu Overlay */}
+      {/* Fullscreen Mobile Menu Overlay - Corregido para cubrir todo sin importar el scroll */}
       <div 
-        className={`fixed top-0 left-0 w-full h-[100dvh] bg-white z-[210] flex flex-col transition-transform duration-500 cubic-bezier(0.77,0.2,0.05,1.0) ${
+        className={`fixed inset-0 w-full h-[100dvh] bg-white z-[210] flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.77,0.2,0.05,1.0)] ${
           isMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex flex-col h-full justify-center items-center p-10 space-y-8">
+        <div className="flex flex-col h-full justify-center items-center p-10 space-y-6">
+          <div className="absolute top-8 left-8">
+            <BrandLogo isDark={true} brandName={settings.brandName} />
+          </div>
+
           {NAV_ITEMS.map((item) => (
             <button 
               key={item.id} 
@@ -115,19 +119,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
             </button>
           ))}
           
-          <div className="w-full space-y-4 pt-10">
+          <div className="w-full space-y-4 pt-10 max-w-xs">
             <a 
               href="https://vivetalara.com/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full py-5 bg-sky-500 text-white rounded-2xl text-center text-xs font-bold uppercase tracking-widest shadow-lg"
+              className="block w-full py-5 bg-sky-500 text-white rounded-2xl text-center text-xs font-bold uppercase tracking-widest shadow-xl active:scale-95 transition-transform"
             >
               <i className="fa-solid fa-mobile-screen-button mr-2"></i>
               ¡Vive Talara!
             </a>
             <button 
               onClick={() => { setIsMenuOpen(false); onOpenBooking(); }} 
-              className="w-full py-5 border-2 border-black text-black rounded-2xl text-xs font-bold uppercase tracking-widest"
+              className="w-full py-5 border-2 border-black text-black rounded-2xl text-xs font-bold uppercase tracking-widest active:scale-95 transition-transform"
             >
               Reservar Ahora
             </button>
@@ -136,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
           <div className="pt-10">
             <SocialLinks 
               className="flex space-x-6" 
-              itemClassName="text-3xl text-gray-400 hover:text-sky-500" 
+              itemClassName="text-3xl text-gray-400 hover:text-sky-500 transition-colors" 
               config={{
                 facebook: settings.facebook,
                 instagram: settings.instagram,
@@ -148,9 +152,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
             />
           </div>
           
-          <div className="absolute bottom-10 text-center">
-             <p className="text-[10px] text-gray-300 uppercase tracking-widest font-bold">
-               {settings.brandName} • La Brea
+          <div className="absolute bottom-10 text-center w-full">
+             <p className="text-[10px] text-gray-300 uppercase tracking-[0.4em] font-bold">
+               {settings.brandName} • NEGRITOS
              </p>
           </div>
         </div>

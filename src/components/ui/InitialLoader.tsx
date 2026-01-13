@@ -28,11 +28,19 @@ export const InitialLoader: React.FC<{ isVisible: boolean }> = ({ isVisible }) =
       </div>
 
       <div className="relative flex flex-col items-center animate-fade-in-scale">
-        {/* Animated Anchor Logo */}
+        {/* Animated Brand Logo (Square) */}
         <div className="relative mb-12">
           <div className="absolute inset-0 bg-sky-400/20 blur-3xl rounded-full animate-pulse-slow"></div>
-          <div className="w-24 h-24 md:w-32 md:h-32 bg-black rounded-[2.5rem] flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] relative z-10 border border-white/10">
-            <i className="fa-solid fa-anchor text-white text-4xl md:text-5xl animate-float"></i>
+          <div className="w-28 h-28 md:w-40 md:h-40 bg-white rounded-[2.5rem] flex items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,0.1)] relative z-10 border border-gray-100 overflow-hidden p-4">
+            <img 
+              src="/logo-square.webp" 
+              alt="Cargando La Brea Tours" 
+              className="w-full h-full object-contain animate-float"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML = '<i class="fa-solid fa-anchor text-sky-500 text-4xl animate-float"></i>';
+              }}
+            />
           </div>
         </div>
 
@@ -63,8 +71,8 @@ export const InitialLoader: React.FC<{ isVisible: boolean }> = ({ isVisible }) =
 
       <style>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0) rotate(0); }
-          50% { transform: translateY(-10px) rotate(5deg); }
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-10px) scale(1.05); }
         }
         .animate-float {
           animation: float 4s ease-in-out infinite;

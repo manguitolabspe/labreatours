@@ -93,7 +93,7 @@ function App() {
           
           setSettings(prev => ({ ...prev, ...updates }));
         }
-      } catch (e) { console.warn("Error cargando settings"); }
+      } catch (e) { console.warn("Error cargando settings, usando defaults"); }
 
       // 2. Cargar Tours
       try {

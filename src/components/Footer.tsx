@@ -65,7 +65,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, settings }) => {
             © {new Date().getFullYear()} {settings.brandName.toUpperCase()} • TALARA • PIURA • PERÚ
           </div>
           <div className="text-gray-700 text-[10px] uppercase tracking-[0.3em] font-bold">
-            Desarrollado por <span className="text-sky-800 hover:text-sky-400 transition-colors cursor-default">Manguito Labs</span>
+            Desarrollado por <a href="https://manguitolabspe.web.app/" target="_blank" rel="noopener noreferrer" className="text-sky-800 hover:text-sky-400 transition-colors">Manguito Labs</a>
           </div>
         </div>
       </div>

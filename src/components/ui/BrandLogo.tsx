@@ -7,11 +7,20 @@ interface BrandLogoProps {
 }
 
 export const BrandLogo: React.FC<BrandLogoProps> = ({ isDark = false, brandName = "La Brea Tours" }) => (
-  <div className="flex items-center space-x-3 cursor-pointer">
-    <div className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-500 ${
-      isDark ? 'bg-black text-white shadow-lg' : 'bg-white/20 text-white backdrop-blur-md border border-white/30'
+  <div className="flex items-center space-x-3 cursor-pointer group">
+    <div className={`w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-500 overflow-hidden ${
+      isDark ? 'bg-white shadow-md border border-gray-100' : 'bg-white/10 backdrop-blur-md border border-white/20'
     }`}>
-      <i className="fa-solid fa-anchor text-lg"></i>
+      <img 
+        src="/logo.webp" 
+        alt="Logo La Brea Tours" 
+        className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform duration-500"
+        onError={(e) => {
+          // Fallback por si la imagen no existe aún
+          e.currentTarget.style.display = 'none';
+          e.currentTarget.parentElement!.innerHTML = '<i class="fa-solid fa-anchor text-lg"></i>';
+        }}
+      />
     </div>
     <div className="flex flex-col leading-none text-left">
       <span className={`font-bold text-lg md:text-xl tracking-tighter font-display italic transition-colors duration-500 ${
