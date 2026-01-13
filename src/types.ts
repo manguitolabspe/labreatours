@@ -1,8 +1,10 @@
 
 export interface Tour {
   id: string;
-  title: string;
-  description: string;
+  title_es: string;
+  title_en: string;
+  description_es: string;
+  description_en: string;
   price: string;
   duration: string;
   imageUrl: string;
@@ -15,13 +17,16 @@ export interface Tour {
 export interface Review {
   name: string;
   city: string;
-  text: string;
+  text_es: string;
+  text_en: string;
   stars: number;
 }
 
 export interface FaqItem {
-  q: string;
-  a: string;
+  q_es: string;
+  q_en: string;
+  a_es: string;
+  a_en: string;
 }
 
 export interface BusinessSettings {
@@ -30,7 +35,8 @@ export interface BusinessSettings {
   email: string;
   location: string;
   aboutImageUrl?: string;
-  aboutText?: string;
+  aboutText_es?: string;
+  aboutText_en?: string;
   secretGuideUrl?: string;
   showLeadCapture?: boolean;
   showTestimonials?: boolean;

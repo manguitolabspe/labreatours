@@ -67,8 +67,10 @@ function App() {
   };
 
   const loadAllData = useCallback(async () => {
+    // Solo cargamos si no se ha cargado antes o si es la primera vez
     setIsLoadingData(true);
     try {
+      // SETTINGS
       try {
         const rows = await fetchCSV(GID_SETTINGS);
         const updates: any = {};
@@ -82,8 +84,8 @@ function App() {
           if (key === 'email') updates.email = val;
           if (key === 'location') updates.location = val;
           if (key === 'about_image_url') updates.aboutImageUrl = val;
-          if (language === 'es' && key === 'about_text_es') updates.aboutText = val;
-          if (language === 'en' && key === 'about_text_en') updates.aboutText = val;
+          if (key === 'about_text_es') updates.aboutText_es = val;
+          if (key === 'about_text_en') updates.aboutText_en = val;
           if (key === 'secret_guide_url') updates.secretGuideUrl = val;
           
           const isTrue = val.toLowerCase() === 'true';
@@ -92,10 +94,9 @@ function App() {
           if (key === 'show_faqs') updates.showFaqs = isTrue;
         });
         setSettings(prev => ({ ...prev, ...updates }));
-      } catch (e) {
-        console.error("Error loading settings:", e);
-      }
+      } catch (e) { console.error("Error settings:", e); }
 
+      // TOURS (Cargar todas las columnas de idioma)
       try {
         const rows = await fetchCSV(GID_TOURS);
         if (rows.length > 1) {
@@ -116,26 +117,26 @@ function App() {
           };
           const fetchedTours: Tour[] = rows.slice(1).filter(r => r.length > 1).map(cols => {
             const clean = (v: string) => v?.replace(/^"|"$/g, '').trim() || '';
-            const spotsVal = clean(cols[idx.spots]);
-            const lastTourVal = clean(cols[idx.lastTour]);
-            
             return {
               id: clean(cols[idx.id]),
-              title: language === 'es' ? clean(cols[idx.title_es]) : (clean(cols[idx.title_en]) || clean(cols[idx.title_es])),
-              description: language === 'es' ? clean(cols[idx.desc_es]) : (clean(cols[idx.desc_en]) || clean(cols[idx.desc_es])),
+              title_es: clean(cols[idx.title_es]),
+              title_en: clean(cols[idx.title_en]) || clean(cols[idx.title_es]),
+              description_es: clean(cols[idx.desc_es]),
+              description_en: clean(cols[idx.desc_en]) || clean(cols[idx.desc_es]),
               price: clean(cols[idx.price]),
               duration: clean(cols[idx.duration]),
               imageUrl: clean(cols[idx.img]),
               category: clean(cols[idx.cat]) as any || 'Aventura',
               popular: clean(cols[idx.popular]).toLowerCase() === 'true',
-              spots: spotsVal !== '' ? Number(spotsVal) : undefined,
-              lastTourHours: lastTourVal !== '' ? Number(lastTourVal) : undefined
+              spots: clean(cols[idx.spots]) !== '' ? Number(clean(cols[idx.spots])) : undefined,
+              lastTourHours: clean(cols[idx.lastTour]) !== '' ? Number(clean(cols[idx.lastTour])) : undefined
             };
           });
           setTours(fetchedTours);
         }
       } catch (e) {}
 
+      // TESTIMONIALS
       try {
         const rows = await fetchCSV(GID_TESTIMONIALS);
         if (rows.length > 1) {
@@ -152,7 +153,8 @@ function App() {
             return {
               name: clean(cols[idx.name]),
               city: clean(cols[idx.city]),
-              text: language === 'es' ? clean(cols[idx.text_es]) : (clean(cols[idx.text_en]) || clean(cols[idx.text_es])),
+              text_es: clean(cols[idx.text_es]),
+              text_en: clean(cols[idx.text_en]) || clean(cols[idx.text_es]),
               stars: parseInt(clean(cols[idx.stars])) || 5
             };
           });
@@ -160,14 +162,17 @@ function App() {
         }
       } catch (e) {}
 
+      // FAQ
       try {
         const rows = await fetchCSV(GID_FAQ);
         if (rows.length > 1) {
           const fetched = rows.slice(1).filter(r => r.length > 1).map(cols => {
             const clean = (v: string) => v?.replace(/^"|"$/g, '').trim() || '';
             return {
-              q: language === 'es' ? clean(cols[0]) : (clean(cols[1]) || clean(cols[0])),
-              a: language === 'es' ? clean(cols[2]) : (clean(cols[3]) || clean(cols[2]))
+              q_es: clean(cols[0]),
+              q_en: clean(cols[1]) || clean(cols[0]),
+              a_es: clean(cols[2]),
+              a_en: clean(cols[3]) || clean(cols[2])
             };
           });
           setFaqs(fetched);
@@ -175,16 +180,17 @@ function App() {
       } catch (e) {}
 
     } catch (error) {
-      console.error("Error loading data:", error);
+      console.error("Error global de carga:", error);
     } finally {
       setIsLoadingData(false);
+      // El preloader solo se quita una vez al inicio
       setTimeout(() => setShowPreloader(false), 800);
     }
-  }, [language]);
+  }, []); // Sin dependencias para que solo se cree una vez
 
   useEffect(() => {
     loadAllData();
-  }, [loadAllData, language]);
+  }, [loadAllData]); // Se ejecuta solo al montar el App
 
   const handleNavigate = (path: string) => {
     setCurrentPath(path);
@@ -220,7 +226,7 @@ function App() {
           </>
         )}
         {currentPath === 'tours' && <Tours language={language} tours={tours} isLoading={isLoadingData} onBookTour={handleOpenBooking} />}
-        {currentPath === 'nosotros' && <About language={language} imageUrl={settings.aboutImageUrl} customText={settings.aboutText} />}
+        {currentPath === 'nosotros' && <About language={language} imageUrl={settings.aboutImageUrl} customText_es={settings.aboutText_es} customText_en={settings.aboutText_en} />}
         {currentPath === 'contacto' && <Contact language={language} onToast={addToast} settings={settings} />}
       </main>
       <Footer onNavigate={handleNavigate} settings={settings} language={language} />

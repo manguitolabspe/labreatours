@@ -70,19 +70,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onS
   const logToSpreadsheet = async (tourTitle: string) => {
     if (!GOOGLE_SCRIPT_URL) return;
     try {
-      // El origen 'Intento Reserva Web' le dice al script que guarde en la pestaña 'Reservas'
       await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          origen: 'Intento Reserva Web',
+          fecha_registro: new Date().toLocaleString('es-PE'),
           nombre: formData.name,
           email: formData.email,
           tour: tourTitle,
           fecha_tour: formData.date,
-          pasajeros: formData.guests,
-          origen: 'Intento Reserva Web',
-          fecha_registro: new Date().toLocaleString()
+          pasajeros: formData.guests
         })
       });
     } catch (e) {
@@ -95,12 +94,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onS
     if (validateStep1() && validateStep2()) {
       setIsSubmitting(true);
       const selectedTour = tours.find(t => t.id === formData.tourId);
-      const tourTitle = selectedTour ? selectedTour.title : 'Tour';
+      const tourTitle = selectedTour ? (language === 'es' ? selectedTour.title_es : selectedTour.title_en) : 'Tour';
       
-      // 1. Guardar en la pestaña 'Reservas' del Google Sheet
       await logToSpreadsheet(tourTitle);
 
-      // 2. Preparar el mensaje de WhatsApp
       const messageText = `¡Hola ${settings.brandName}! 👋\n\n` +
         `Solicitud de reserva desde la Web:\n\n` +
         `👤 *Nombre:* ${formData.name}\n` +
@@ -132,7 +129,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onS
                 <option value="">{t.booking_tour_placeholder}</option>
                 {tours.map(t => (
                   <option key={t.id} value={t.id} disabled={t.spots === 0}>
-                    {t.title} - {t.price} {t.spots === 0 ? `(${translations[language].tours_sold_out})` : ''}
+                    {language === 'es' ? t.title_es : t.title_en} - {t.price} {t.spots === 0 ? `(${translations[language].tours_sold_out})` : ''}
                   </option>
                 ))}
               </select>

@@ -22,8 +22,8 @@ export const GID_LEADS = "1798870088";
 export const GID_RESERVAS = "69952412"; 
 export const GID_CONTACTO = "1032766857"; 
 
-// REEMPLAZA ESTA URL CON LA QUE COPIASTE EN EL PASO ANTERIOR
-export const GOOGLE_SCRIPT_URL = "COLOQUE_AQUI_SU_NUEVA_URL_DE_APPS_SCRIPT"; 
+// URL de Google Apps Script actualizada proporcionada por el usuario
+export const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpgM-cRsCC36uR-RiytcKC6iz644mCsgQxzoqmsuEy3aVCSFw8NXlblcdkxhI0O4if/exec"; 
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Inicio', id: 'inicio', href: '#inicio' },

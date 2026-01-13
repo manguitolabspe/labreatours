@@ -26,7 +26,9 @@ export const Testimonials: React.FC<TestimonialsProps> = ({ reviews, language })
               <div className="flex text-amber-400 mb-6">
                 {[...Array(Number(r.stars) || 5)].map((_, s) => <i key={s} className="fa-solid fa-star text-xs mr-1"></i>)}
               </div>
-              <p className="text-gray-600 italic mb-8 leading-relaxed text-sm md:text-base">"{r.text}"</p>
+              <p className="text-gray-600 italic mb-8 leading-relaxed text-sm md:text-base">
+                "{language === 'es' ? r.text_es : r.text_en}"
+              </p>
               <div className="flex items-center space-x-4">
                 <div className="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center text-sky-500 font-bold text-xs uppercase shadow-inner">
                   {r.name.charAt(0)}

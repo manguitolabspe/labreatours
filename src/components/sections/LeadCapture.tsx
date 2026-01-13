@@ -38,15 +38,14 @@ export const LeadCapture: React.FC<LeadCaptureProps> = ({ onToast, downloadUrl, 
 
     try {
       if (GOOGLE_SCRIPT_URL) {
-        // Enviamos con origen de Guía para que el script lo guarde en 'Leads'
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             email: email,
-            origen: 'Formulario Guía Secreta',
-            fecha_registro: new Date().toLocaleString()
+            origen: 'Suscripción Guía Secreta',
+            fecha_registro: new Date().toLocaleString('es-PE')
           })
         });
         

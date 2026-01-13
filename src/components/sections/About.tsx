@@ -5,15 +5,18 @@ import { translations } from '../../translations';
 
 interface AboutProps {
   imageUrl?: string;
-  customText?: string;
+  customText_es?: string;
+  customText_en?: string;
   language: 'es' | 'en';
 }
 
 const DEFAULT_ABOUT_IMAGE = "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=1200";
 
-export const About: React.FC<AboutProps> = ({ imageUrl, customText, language }) => {
+export const About: React.FC<AboutProps> = ({ imageUrl, customText_es, customText_en, language }) => {
   const t = translations[language];
   const displayImage = imageUrl && imageUrl.trim() !== "" ? imageUrl : DEFAULT_ABOUT_IMAGE;
+  
+  const displayAboutText = language === 'es' ? customText_es : customText_en;
 
   return (
     <section id="nosotros" className="py-24 md:py-32 bg-white relative overflow-hidden">
@@ -28,8 +31,8 @@ export const About: React.FC<AboutProps> = ({ imageUrl, customText, language }) 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-8 text-white">
-                <h4 className="text-xl font-bold font-display uppercase tracking-wider">{language === 'es' ? 'Patrimonio Local' : 'Local Heritage'}</h4>
-                <p className="text-sm opacity-80 mt-1">{language === 'es' ? 'Distrito de La Brea, Talara.' : 'La Brea District, Talara.'}</p>
+                <h4 className="text-xl font-bold font-display uppercase tracking-wider">{t.about_history_label}</h4>
+                <p className="text-sm opacity-80 mt-1">{t.about_history_sub}</p>
               </div>
             </div>
           </div>
@@ -44,7 +47,7 @@ export const About: React.FC<AboutProps> = ({ imageUrl, customText, language }) 
             </h2>
             <div className="space-y-6 text-gray-600 text-base md:text-lg leading-relaxed italic">
               <p>
-                {customText || (language === 'es' 
+                {displayAboutText || (language === 'es' 
                   ? `En **${BRAND_NAME}**, somos apasionados relatores de la historia de Negritos. Conectamos a los viajeros con la esencia real de nuestro distrito.`
                   : `At **${BRAND_NAME}**, we are passionate storytellers of the history of Negritos. We connect travelers with the true essence of our district.`)}
               </p>

@@ -26,18 +26,20 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, onBookTour, language }
   const spots = tour.spots !== undefined ? Number(tour.spots) : null;
   const lastTour = tour.lastTourHours !== undefined ? Number(tour.lastTourHours) : null;
 
+  const displayTitle = language === 'es' ? tour.title_es : tour.title_en;
+  const displayDescription = language === 'es' ? tour.description_es : tour.description_en;
+
   return (
     <div className="group relative bg-white flex flex-col rounded-[2rem] md:rounded-[3rem] overflow-hidden transition-all duration-700 hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-gray-100 h-full">
       <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden bg-gray-100">
         <img 
           src={imgSrc} 
-          alt={tour.title}
+          alt={displayTitle}
           onError={() => setImgSrc(FALLBACK_IMAGE)}
           className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
         
-        {/* Badges Superiores */}
         <div className="absolute top-4 md:top-6 left-4 md:left-6 flex flex-col space-y-2 z-20">
           <span className="bg-white/10 backdrop-blur-md text-white text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] px-3 md:px-5 py-2 md:py-2.5 rounded-full border border-white/20 flex items-center space-x-2 self-start">
             <i className={`fa-solid ${categoryIcons[tour.category as keyof typeof categoryIcons] || 'fa-mountain-sun'}`}></i>
@@ -50,7 +52,6 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, onBookTour, language }
             </span>
           )}
 
-          {/* Prueba Social: Último tour (Punto 3) */}
           {lastTour !== null && lastTour <= 48 && (
             <span className="bg-sky-500 text-white text-[8px] md:text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg self-start">
               <i className="fa-solid fa-bolt mr-1"></i> {t.tours_last_tour.replace('{n}', lastTour.toString())}
@@ -58,7 +59,6 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, onBookTour, language }
           )}
         </div>
 
-        {/* Badge de Disponibilidad (Punto 6) */}
         {spots !== null && spots <= 5 && spots > 0 && (
           <div className="absolute top-4 right-4 z-20">
              <div className="bg-red-500 text-white text-[8px] font-black uppercase tracking-[0.2em] px-3 py-2 rounded-lg shadow-xl animate-bounce">
@@ -81,14 +81,14 @@ export const TourCard: React.FC<TourCardProps> = ({ tour, onBookTour, language }
             <span>{tour.duration} {t.tours_duration_label}</span>
           </div>
           <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold font-display leading-tight italic">
-            {tour.title}
+            {displayTitle}
           </h3>
         </div>
       </div>
       
       <div className="p-6 md:p-10 flex-grow flex flex-col bg-white">
         <p className="text-gray-500 mb-8 leading-relaxed text-sm md:text-base flex-grow italic font-light">
-          "{tour.description}"
+          "{displayDescription}"
         </p>
         
         <div className="flex items-center justify-between pt-6 md:pt-8 border-t border-gray-50">
