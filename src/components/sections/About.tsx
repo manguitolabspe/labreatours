@@ -2,14 +2,26 @@
 import React from 'react';
 import { BRAND_NAME } from '../../constants';
 
-export const About: React.FC = () => {
+interface AboutProps {
+  imageUrl?: string;
+}
+
+const DEFAULT_ABOUT_IMAGE = "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=1200";
+
+export const About: React.FC<AboutProps> = ({ imageUrl }) => {
+  const displayImage = imageUrl && imageUrl.trim() !== "" ? imageUrl : DEFAULT_ABOUT_IMAGE;
+
   return (
     <section id="nosotros" className="py-24 md:py-32 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <div className="w-full lg:w-1/2 order-2 lg:order-1">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl">
-              <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=1200" alt="Negritos" className="w-full h-[400px] md:h-[500px] object-cover" />
+            <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+              <img 
+                src={displayImage} 
+                alt="Sobre La Brea Tours" 
+                className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" 
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-8 text-white">
                 <h4 className="text-xl font-bold font-display uppercase tracking-wider">Patrimonio Local</h4>

@@ -27,6 +27,7 @@ export interface BusinessSettings {
   phone: string;
   email: string;
   location: string;
+  aboutImageUrl?: string;
   secretGuideUrl?: string;
   showLeadCapture?: boolean;
   showTestimonials?: boolean;

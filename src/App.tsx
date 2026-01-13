@@ -81,6 +81,7 @@ function App() {
             if (key === 'whatsapp') updates.phone = val;
             if (key === 'email') updates.email = val;
             if (key === 'location') updates.location = val;
+            if (key === 'about_image_url') updates.aboutImageUrl = val;
             if (key === 'secret_guide_url') updates.secretGuideUrl = val; 
             if (key === 'show_lead_capture') updates.showLeadCapture = val.toLowerCase() === 'true' || val === '1';
             if (key === 'show_testimonials') updates.showTestimonials = val.toLowerCase() === 'true' || val === '1';
@@ -222,7 +223,7 @@ function App() {
       case 'nosotros': 
         return (
           <>
-            <About />
+            <About imageUrl={settings.aboutImageUrl} />
             {settings.showLeadCapture && (
               <LeadCapture onToast={addToast} downloadUrl={settings.secretGuideUrl} />
             )}
