@@ -17,8 +17,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
   const isScrolled = useScroll(10);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Bloqueo total de scroll cuando el menú está abierto
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.height = '100vh';
+    } else {
+      document.body.style.overflow = 'auto';
+      document.body.style.height = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.body.style.height = 'auto';
+    };
   }, [isMenuOpen]);
 
   const handleNavClick = (id: string) => {
@@ -27,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
   };
 
   return (
-    <nav className={`fixed w-full z-[200] transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 w-full z-[200] transition-all duration-300 ${
       isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-2' : 'bg-white py-4'
     }`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
@@ -35,6 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
           <BrandLogo isDark={true} brandName={settings.brandName} />
         </div>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
           {NAV_ITEMS.map((item) => (
             <button 
@@ -70,57 +82,77 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenB
           </div>
         </div>
 
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden focus:outline-none z-[220] p-2">
-          <div className="relative w-6 h-4 flex flex-col justify-between">
-            <span className={`block w-6 h-0.5 bg-black transition-all ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-black transition-all ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`block w-6 h-0.5 bg-black transition-all ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        {/* Burger Button */}
+        <button 
+          onClick={() => setIsMenuOpen(!isMenuOpen)} 
+          className="md:hidden focus:outline-none z-[220] p-2 bg-gray-50 rounded-lg"
+          aria-label="Menu"
+        >
+          <div className="relative w-6 h-5 flex flex-col justify-between">
+            <span className={`block w-6 h-0.5 bg-black transition-all duration-300 origin-left ${isMenuOpen ? 'rotate-[42deg] w-[30px]' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-black transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-black transition-all duration-300 origin-left ${isMenuOpen ? '-rotate-[42deg] w-[30px]' : ''}`}></span>
           </div>
         </button>
       </div>
 
-      <div className={`fixed inset-0 bg-white z-[210] transition-transform duration-500 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex flex-col h-full justify-center items-center p-10 space-y-6">
+      {/* Fullscreen Mobile Menu Overlay */}
+      <div 
+        className={`fixed top-0 left-0 w-full h-[100dvh] bg-white z-[210] flex flex-col transition-transform duration-500 cubic-bezier(0.77,0.2,0.05,1.0) ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full justify-center items-center p-10 space-y-8">
           {NAV_ITEMS.map((item) => (
             <button 
               key={item.id} 
               onClick={() => handleNavClick(item.id)} 
-              className={`text-3xl font-display font-bold ${currentPath === item.id ? 'text-sky-500' : 'text-black'}`}
+              className={`text-4xl font-display font-bold transition-colors ${
+                currentPath === item.id ? 'text-sky-500' : 'text-black'
+              }`}
             >
               {item.label}
             </button>
           ))}
           
-          <div className="w-full space-y-4 pt-8">
+          <div className="w-full space-y-4 pt-10">
             <a 
               href="https://vivetalara.com/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full py-5 bg-sky-500 text-white rounded-full text-center text-xs font-bold uppercase tracking-widest shadow-lg"
+              className="block w-full py-5 bg-sky-500 text-white rounded-2xl text-center text-xs font-bold uppercase tracking-widest shadow-lg"
             >
               <i className="fa-solid fa-mobile-screen-button mr-2"></i>
               ¡Vive Talara!
             </a>
             <button 
               onClick={() => { setIsMenuOpen(false); onOpenBooking(); }} 
-              className="w-full py-5 border-2 border-black text-black rounded-full text-xs font-bold uppercase tracking-widest"
+              className="w-full py-5 border-2 border-black text-black rounded-2xl text-xs font-bold uppercase tracking-widest"
             >
               Reservar Ahora
             </button>
           </div>
 
-          <SocialLinks 
-            className="flex space-x-6 pt-10" 
-            itemClassName="text-2xl text-gray-400" 
-            config={{
-              facebook: settings.facebook,
-              instagram: settings.instagram,
-              tiktok: settings.tiktok,
-              youtube: settings.youtube,
-              twitter: settings.twitter,
-              whatsapp: settings.phone
-            }}
-          />
+          <div className="pt-10">
+            <SocialLinks 
+              className="flex space-x-6" 
+              itemClassName="text-3xl text-gray-400 hover:text-sky-500" 
+              config={{
+                facebook: settings.facebook,
+                instagram: settings.instagram,
+                tiktok: settings.tiktok,
+                youtube: settings.youtube,
+                twitter: settings.twitter,
+                whatsapp: settings.phone
+              }}
+            />
+          </div>
+          
+          <div className="absolute bottom-10 text-center">
+             <p className="text-[10px] text-gray-300 uppercase tracking-widest font-bold">
+               {settings.brandName} • La Brea
+             </p>
+          </div>
         </div>
       </div>
     </nav>
